@@ -110,16 +110,218 @@ function App() {
     <div>
       <h1>My Application</h1>
       <ChatBot 
-        llmProvider="your_llm_provider"
-        apiKey={your_api_key}
-        headerTitle="Chat Assistant"
-        context="Your context here"
+        llmProvider="openai"
+        apiKey={import.meta.env.VITE_OPENAI_API_KEY}
+        headerTitle="Support Assistant"
+        context="You are a helpful customer support agent for my company. 
+                Be friendly, professional, and always try to solve customer problems."
       />
     </div>
   )
 }`}
             id="basic-usage"
           />
+          
+          <div className="important-note">
+            <h4>💡 Context is Critical!</h4>
+            <p>The <code>context</code> prop is the most important feature for creating effective AI responses. It tells the AI who it is, what it should do, and how it should behave. <strong>Never skip the context prop!</strong></p>
+            <p>👉 <a href="#context-guide">Learn how to write effective context →</a></p>
+          </div>
+          
+          <h4>Quick Setup Options</h4>
+          <p>Choose your preferred LLM provider:</p>
+          <CodeBlock 
+            code={`// OpenAI (GPT models)
+<ChatBot 
+  llmProvider="openai"
+  apiKey={import.meta.env.VITE_OPENAI_API_KEY}
+  context="Your context here..."
+/>
+
+// Google Gemini
+<ChatBot 
+  llmProvider="gemini"
+  apiKey={import.meta.env.VITE_GEMINI_API_KEY}
+  context="Your context here..."
+/>
+
+// Anthropic Claude
+<ChatBot 
+  llmProvider="claude"
+  apiKey={import.meta.env.VITE_CLAUDE_API_KEY}
+  context="Your context here..."
+/>`}
+            id="quick-setup"
+          />
+        </div>
+      )
+    },
+    {
+      id: 'context-guide',
+      title: 'Context: The Key to Better AI Responses',
+      content: (
+        <div className="section-content">
+          <p><strong>Context is the most important prop for creating effective AI chatbots.</strong> It provides the AI with background information about its role, your business, and how it should behave.</p>
+          
+          <h4>🎯 Why Context Matters</h4>
+          <p>Without proper context, AI responses can be:</p>
+          <ul>
+            <li>Generic and unhelpful</li>
+            <li>Off-brand or inappropriate for your business</li>
+            <li>Missing crucial domain-specific knowledge</li>
+            <li>Inconsistent across conversations</li>
+          </ul>
+          
+          <p>With good context, your AI becomes a knowledgeable assistant that understands your business and provides relevant, helpful responses.</p>
+          
+          <h4>✍️ Writing Effective Context</h4>
+          <p>A good context should include:</p>
+          <ul>
+            <li><strong>Role Definition:</strong> What is the AI's job?</li>
+            <li><strong>Company Information:</strong> What does your business do?</li>
+            <li><strong>Tone Guidelines:</strong> How should the AI communicate?</li>
+            <li><strong>Domain Knowledge:</strong> Key facts the AI should know</li>
+            <li><strong>Behavioral Rules:</strong> Do's and don'ts</li>
+          </ul>
+          
+          <h4>🛍️ E-commerce Context Example</h4>
+          <CodeBlock 
+            code={`<ChatBot
+  context="You are a helpful customer service agent for TechStore, an online electronics retailer.
+
+COMPANY INFO:
+- We sell laptops, smartphones, tablets, and accessories
+- We offer 30-day returns, 1-year warranty on all products
+- Free shipping on orders over $99
+- Business hours: Mon-Fri 9AM-6PM EST
+
+YOUR ROLE:
+- Help customers find the right products
+- Answer questions about orders, shipping, and returns
+- Provide technical support for products we sell
+- Be friendly, knowledgeable, and solution-focused
+
+POLICIES TO REMEMBER:
+- Always check order status before suggesting customers call
+- Offer product alternatives if something is out of stock
+- For technical issues, ask for product model and purchase date
+- Escalate complex issues to human agents when needed
+
+TONE:
+- Friendly and professional
+- Use simple, clear language
+- Show empathy for customer problems
+- Always try to find a solution"
+  
+  responseType="casual"
+  headerTitle="TechStore Support"
+/>`}
+            id="ecommerce-context"
+          />
+          
+          <h4>🏥 Healthcare Context Example</h4>
+          <CodeBlock 
+            code={`<ChatBot
+  context="You are a virtual assistant for Wellness Clinic, a family healthcare practice.
+
+IMPORTANT: You are NOT a doctor and cannot provide medical advice, diagnoses, or treatment recommendations.
+
+YOUR ROLE:
+- Help patients schedule appointments
+- Answer questions about clinic services and policies
+- Provide general information about our doctors and specialties
+- Direct patients to appropriate resources
+
+CLINIC INFO:
+- Family medicine, pediatrics, and internal medicine
+- Open Mon-Fri 8AM-5PM, Sat 9AM-1PM
+- Same-day sick visits available
+- Accepts most major insurance plans
+- Located at 123 Health Street, Wellness City
+
+SERVICES WE OFFER:
+- Annual physicals and wellness exams
+- Vaccinations and immunizations
+- Chronic disease management
+- Minor urgent care
+- Lab work and basic diagnostics
+
+ALWAYS REMEMBER:
+- Never provide medical advice or diagnose conditions
+- For medical questions, always say 'Please consult with one of our doctors'
+- For emergencies, direct to call 911 or visit ER
+- Be compassionate and understanding
+- Protect patient privacy - never ask for personal health information"
+  
+  responseType="formal"
+  headerTitle="Wellness Clinic Assistant"
+/>`}
+            id="healthcare-context"
+          />
+          
+          <h4>💻 SaaS Context Example</h4>
+          <CodeBlock 
+            code={`<ChatBot
+  context="You are a technical support assistant for CloudFlow, a project management SaaS platform.
+
+PRODUCT OVERVIEW:
+CloudFlow helps teams manage projects with features like:
+- Task management and assignment
+- Time tracking and reporting
+- Team collaboration tools
+- File sharing and version control
+- Custom workflows and automation
+
+YOUR EXPERTISE:
+- Help users navigate the platform
+- Troubleshoot common technical issues
+- Explain features and best practices
+- Guide users through setup processes
+- Provide integration assistance
+
+COMMON ISSUES & SOLUTIONS:
+- Login problems: Check email/password, clear browser cache
+- Slow performance: Recommend Chrome/Firefox, check internet connection  
+- Missing features: Verify subscription plan and user permissions
+- Sync issues: Refresh browser, check account sync settings
+
+ESCALATION TRIGGERS:
+- Billing questions → Direct to billing team
+- Data loss reports → Immediate escalation to tech team
+- Security concerns → Escalate to security team
+- Feature requests → Log for product team review
+
+COMMUNICATION STYLE:
+- Technical but accessible
+- Provide step-by-step instructions
+- Use screenshots/links when helpful
+- Be patient with non-technical users
+- Always ask follow-up questions to ensure resolution"
+  
+  responseType="technical"
+  headerTitle="CloudFlow Support"
+/>`}
+            id="saas-context"
+          />
+          
+          <h4>📚 Best Practices for Context</h4>
+          <ul>
+            <li><strong>Be Specific:</strong> Include exact policies, hours, and procedures</li>
+            <li><strong>Set Boundaries:</strong> Clearly state what the AI can and cannot do</li>
+            <li><strong>Include Examples:</strong> Show the AI how to handle common scenarios</li>
+            <li><strong>Update Regularly:</strong> Keep context current with business changes</li>
+            <li><strong>Test Different Versions:</strong> Experiment to find what works best</li>
+            <li><strong>Use Formatting:</strong> Structure context with headers and bullet points</li>
+          </ul>
+          
+          <h4>⚠️ Context Length Considerations</h4>
+          <p>While detailed context is important, be mindful of length:</p>
+          <ul>
+            <li><strong>Optimal:</strong> 500-1500 characters for most use cases</li>
+            <li><strong>Maximum:</strong> Most LLMs can handle 2000-4000 characters</li>
+            <li><strong>Priority:</strong> Put the most important information first</li>
+            <li><strong>Testing:</strong> Monitor response quality with different context lengths</li>
+          </ul>
         </div>
       )
     },
