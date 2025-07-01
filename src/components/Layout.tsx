@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Github, BookOpen, Code, Home } from 'lucide-react'
+import { Menu, X, Github, BookOpen, Code, Home, Gamepad2 } from 'lucide-react'
 import ScrollToTop from './ScrollToTop'
 import './Layout.scss'
 
@@ -16,6 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Documentation', href: '/docs', icon: BookOpen },
     { name: 'Examples', href: '/examples', icon: Code },
+    { name: 'Playground', href: '/playground', icon: Gamepad2 },
   ]
 
   const isActive = (path: string) => location.pathname === path
@@ -126,6 +127,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <ul>
                 <li><Link to="/docs">Documentation</Link></li>
                 <li><Link to="/examples">Examples</Link></li>
+                <li><Link to="/playground">Playground</Link></li>
                 <li><a href="https://github.com/your-username/cha-ai">GitHub</a></li>
               </ul>
             </div>
@@ -134,12 +136,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <ul>
                 <li><a href="#issues">Report Issues</a></li>
                 <li><a href="#contributing">Contributing</a></li>
-                <li><a href="#license">License</a></li>
               </ul>
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 Cha-ai. MIT License.</p>
+            <p>&copy; 2025 Cha-ai</p>
           </div>
         </div>
       </footer>

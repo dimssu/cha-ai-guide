@@ -4,7 +4,9 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import Documentation from './pages/Documentation'
 import Examples from './pages/Examples'
+import Playground from './pages/Playground'
 import './App.scss'
+import { generateChaAiContext } from './data/chaAiDocumentation'
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/docs" element={<Documentation />} />
           <Route path="/examples" element={<Examples />} />
+          <Route path="/playground" element={<Playground />} />
         </Routes>
       </Layout>
       
@@ -35,16 +38,17 @@ function App() {
           "How do I use direct LLM integration?"
         ]}
         styling={{
-          widgetColor: '#4f46e5',
+          widgetColor: '#fff',
           textColor: '#fff',
           userMessageBackground: '#4f46e5',
-          botMessageBackground: '#f3f4f6',
+          botMessageBackground: '#111827',
           borderRadius: '12px',
           fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
         }}
         maxHeight="600px"
         persistChat={true}
-        context='' // TODO: Add context for the chatbot
+        context={generateChaAiContext()}
+        chatButtonIcon='https://lottie.host/embed/0df71204-aba8-4fa3-874a-0781f79fe41d/nARRb2P4KE.lottie'
       />
     </div>
   )

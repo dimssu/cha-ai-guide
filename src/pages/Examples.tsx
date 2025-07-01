@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Play, Code, Eye, Copy, Check } from 'lucide-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -9,6 +9,50 @@ import './Examples.scss'
 const Examples = () => {
   const [activeExample, setActiveExample] = useState<string | null>(null)
   const [copiedCode, setCopiedCode] = useState<string | null>(null)
+
+  // Fix ChatBot positioning within preview containers
+  useEffect(() => {
+    const fixChatBotPositioning = () => {
+      // Find all preview containers
+      const previewContainers = document.querySelectorAll('.preview-container')
+      
+      previewContainers.forEach(container => {
+        // Find any fixed positioned elements within the container
+        const allElements = container.querySelectorAll('*')
+        
+        allElements.forEach(element => {
+          const computedStyle = window.getComputedStyle(element)
+          
+          if (computedStyle.position === 'fixed') {
+            const htmlElement = element as HTMLElement
+            htmlElement.style.position = 'absolute'
+            
+            // Adjust positioning to be relative to container
+            if (computedStyle.bottom && computedStyle.bottom !== 'auto') {
+              htmlElement.style.bottom = '1rem'
+            }
+            if (computedStyle.right && computedStyle.right !== 'auto') {
+              htmlElement.style.right = '1rem'
+            }
+            if (computedStyle.left && computedStyle.left !== 'auto') {
+              htmlElement.style.left = '1rem'
+            }
+            if (computedStyle.top && computedStyle.top !== 'auto') {
+              htmlElement.style.top = '1rem'
+            }
+          }
+        })
+      })
+    }
+
+    // Run immediately
+    fixChatBotPositioning()
+    
+    // Run after a short delay to catch dynamically rendered elements
+    const timeout = setTimeout(fixChatBotPositioning, 100)
+    
+    return () => clearTimeout(timeout)
+  }, [activeExample])
 
   const copyToClipboard = async (code: string, id: string) => {
     try {
@@ -22,6 +66,49 @@ const Examples = () => {
   }
 
   const examples = [
+    {
+      id: 'direct-llm',
+      title: 'Direct LLM Integration',
+      description: 'Connect directly to OpenAI API without a backend',
+      code: `import ChatBot from 'cha-ai'
+
+function App() {
+  return (
+    <div>
+      <h1>Direct OpenAI Integration</h1>
+      <ChatBot
+        directLlmConfig={{
+          provider: 'openai',
+          apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+          model: 'gpt-3.5-turbo',
+          systemPrompt: 'You are a helpful assistant that specializes in web development.'
+        }}
+        headerTitle="Dev Assistant"
+        theme="light"
+        showTimestamps={true}
+        suggestedQuestions={[
+          "Help me with React",
+          "Explain TypeScript",
+          "CSS best practices",
+          "JavaScript tips"
+        ]}
+      />
+    </div>
+  )
+}`,
+      preview: (
+        <div className="preview-container">
+          <div className="preview-header">
+            <h3>Direct LLM Integration</h3>
+            <p>This example would connect directly to OpenAI (requires API key)</p>
+          </div>
+          <div className="preview-placeholder">
+            <p>🔑 This example requires an OpenAI API key to function</p>
+            <p>Set your API key in environment variables to test this integration</p>
+          </div>
+        </div>
+      )
+    },
     {
       id: 'basic',
       title: 'Basic Implementation',
@@ -170,50 +257,8 @@ function App() {
             }}
             maxHeight="600px"
             persistChat={true}
+            chatId='full-featured'
           />
-        </div>
-      )
-    },
-    {
-      id: 'direct-llm',
-      title: 'Direct LLM Integration',
-      description: 'Connect directly to OpenAI API without a backend',
-      code: `import ChatBot from 'cha-ai'
-
-function App() {
-  return (
-    <div>
-      <h1>Direct OpenAI Integration</h1>
-      <ChatBot
-        directLlmConfig={{
-          provider: 'openai',
-          apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-          model: 'gpt-3.5-turbo',
-          systemPrompt: 'You are a helpful assistant that specializes in web development.'
-        }}
-        headerTitle="Dev Assistant"
-        theme="light"
-        showTimestamps={true}
-        suggestedQuestions={[
-          "Help me with React",
-          "Explain TypeScript",
-          "CSS best practices",
-          "JavaScript tips"
-        ]}
-      />
-    </div>
-  )
-}`,
-      preview: (
-        <div className="preview-container">
-          <div className="preview-header">
-            <h3>Direct LLM Integration</h3>
-            <p>This example would connect directly to OpenAI (requires API key)</p>
-          </div>
-          <div className="preview-placeholder">
-            <p>🔑 This example requires an OpenAI API key to function</p>
-            <p>Set your API key in environment variables to test this integration</p>
-          </div>
         </div>
       )
     }
@@ -256,7 +301,7 @@ function App() {
       <div className="container">
         <div className="examples-header">
           <h1>Live Examples</h1>
-          <p>See Cha-ai in action with these interactive examples. Click on any example to view the code and try it live.</p>
+          <p>These examples are just a few of the possibilities with Cha-ai. Check out the full documentation to learn more about all available features and customization options.</p>
         </div>
 
         <div className="examples-grid">
@@ -267,7 +312,7 @@ function App() {
                 <p>{example.description}</p>
               </div>
 
-              <div className="example-actions">
+              {/* <div className="example-actions">
                 <button
                   className={`action-btn ${activeExample === example.id ? 'active' : ''}`}
                   onClick={() => setActiveExample(activeExample === example.id ? null : example.id)}
@@ -287,7 +332,7 @@ function App() {
                   <Code size={18} />
                   View Code
                 </button>
-              </div>
+              </div> */}
 
               {activeExample === example.id && (
                 <div className="example-preview">

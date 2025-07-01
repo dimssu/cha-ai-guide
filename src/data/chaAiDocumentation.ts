@@ -185,6 +185,12 @@ export const chaAiDocumentation: DocSection[] = [
     title: 'Common Issues',
     content: 'Common troubleshooting tips:\n\n1. Module not found: Make sure you installed cha-ai with npm/yarn\n2. Backend connection issues: Verify your backendUrl is correct and accessible\n3. Styling not applying: Check that your styling object properties are correctly named\n4. API key issues: Ensure your API key is valid and has proper permissions\n5. CORS errors: Configure your backend to allow requests from your domain',
     tags: ['troubleshooting', 'issues', 'problems', 'errors', 'help', 'debug']
+  },
+  {
+    id: 'smart-context',
+    title: 'Smart Context System',
+    content: 'Cha-ai includes a smart context system that can dynamically provide relevant documentation based on user queries:\n\n// Basic usage with comprehensive context\nimport { generateChaAiContext } from "./data/chaAiDocumentation"\n\n<ChatBot context={generateChaAiContext()} />\n\n// Advanced usage with dynamic context\nimport { useChatContext } from "./utils/useChatContext"\n\nfunction MyComponent() {\n  const { context, updateContextForQuery } = useChatContext()\n  \n  return (\n    <ChatBot\n      context={context}\n      onUserMessage={updateContextForQuery}\n    />\n  )\n}\n\nThe system automatically:\n• Analyzes user queries for intent and topics\n• Provides relevant documentation sections\n• Maintains conversation history for better context\n• Optimizes for faster, more accurate responses',
+    tags: ['context', 'smart', 'dynamic', 'documentation', 'ai', 'advanced', 'intelligent']
   }
 ]
 
@@ -282,4 +288,78 @@ function App() {
   }
   
   return examples[type] || examples.basic
+}
+
+// Generate comprehensive context for ChatBot
+export const generateChaAiContext = (): string => {
+  const propsTable = chaAiProps.map(prop => 
+    `${prop.name}: ${prop.type} (${prop.required ? 'required' : 'optional'}, default: ${prop.default}) - ${prop.description}`
+  ).join('\n')
+
+  const documentationContent = chaAiDocumentation.map(section => 
+    `## ${section.title}\n${section.content}`
+  ).join('\n\n')
+
+  return `You are an expert assistant for the cha-ai React chatbot component. You help developers understand how to use, configure, and troubleshoot cha-ai.
+
+# Cha-ai Component Documentation
+
+## Available Props:
+${propsTable}
+
+## Complete Documentation:
+${documentationContent}
+
+## Installation:
+npm install cha-ai
+
+## Key Points:
+- Cha-ai is a React chatbot component that can be easily integrated into any React application
+- It supports multiple LLM providers (OpenAI, Claude, Gemini) with direct API integration
+- Features include markdown support, file uploads, feedback, theming, and customization
+- The component can be positioned in any corner of the screen
+- Chat history is persisted in localStorage by default
+- All markdown content is sanitized for security
+
+When answering questions:
+1. Provide specific code examples when appropriate
+2. Reference the exact prop names and values from the documentation
+3. Suggest best practices for implementation
+4. Help troubleshoot common issues
+5. Always be helpful and provide working code examples`
+}
+
+// Generate dynamic context based on user query
+export const generateDynamicContext = (userQuery: string): string => {
+  const relevantDocs = searchDocumentation(userQuery)
+  const baseContext = `You are an expert assistant for the cha-ai React chatbot component.`
+  
+  if (relevantDocs.length === 0) {
+    return generateChaAiContext() // Fallback to full context
+  }
+
+  const relevantContent = relevantDocs.map(doc => 
+    `## ${doc.title}\n${doc.content}`
+  ).join('\n\n')
+
+  // Get relevant props based on query keywords
+  const queryLower = userQuery.toLowerCase()
+  const relevantProps = chaAiProps.filter(prop => 
+    queryLower.includes(prop.name.toLowerCase()) ||
+    prop.description.toLowerCase().includes(queryLower)
+  )
+
+  const propsSection = relevantProps.length > 0 
+    ? `\n\n## Relevant Props:\n${relevantProps.map(prop => 
+        `${prop.name}: ${prop.type} (${prop.required ? 'required' : 'optional'}, default: ${prop.default}) - ${prop.description}`
+      ).join('\n')}`
+    : ''
+
+  return `${baseContext}
+
+# Relevant Cha-ai Documentation for: "${userQuery}"
+
+${relevantContent}${propsSection}
+
+Provide specific, actionable answers with code examples when appropriate.`
 } 

@@ -384,17 +384,8 @@
         border-bottom: 1px solid #475569;
       }
       
-      pre {
-        margin: 0;
-        padding: 1rem;
-        overflow-x: auto;
-        
-        code {
-          color: #e2e8f0;
-          font-size: 0.875rem;
-          line-height: 1.6;
-        }
-      }
+      // SyntaxHighlighter will handle the content styling
+      // The component applies its own pre and code styles
     }
   }
 }

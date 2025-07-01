@@ -109,10 +109,73 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 0.75rem;
+      position: relative;
+      overflow: hidden;
       
       .preview-container {
         position: relative;
         min-height: 200px;
+        width: 100%;
+        height: 400px;
+        
+        // Force ChatBot to be contained within preview
+        .cha-ai-widget-container,
+        [class*="cha-ai"],
+        [class*="chatbot"],
+        [id*="cha-ai"],
+        [id*="chatbot"] {
+          position: absolute !important;
+          
+          &[data-position="bottom-right"] {
+            bottom: 1rem !important;
+            right: 1rem !important;
+            top: auto !important;
+            left: auto !important;
+          }
+          
+          &[data-position="bottom-left"] {
+            bottom: 1rem !important;
+            left: 1rem !important;
+            top: auto !important;
+            right: auto !important;
+          }
+        }
+        
+        // Alternative approach - target any child with fixed positioning
+        > * {
+          &[style*="position: fixed"], 
+          &[style*="position:fixed"] {
+            position: absolute !important;
+            
+            &[style*="bottom: 20px"], 
+            &[style*="bottom:20px"],
+            &[style*="bottom: 1.25rem"],
+            &[style*="bottom:1.25rem"] {
+              bottom: 1rem !important;
+            }
+            
+            &[style*="right: 20px"], 
+            &[style*="right:20px"],
+            &[style*="right: 1.25rem"],
+            &[style*="right:1.25rem"] {
+              right: 1rem !important;
+            }
+            
+            &[style*="left: 20px"], 
+            &[style*="left:20px"],
+            &[style*="left: 1.25rem"],
+            &[style*="left:1.25rem"] {
+              left: 1rem !important;
+            }
+          }
+        }
+        
+        // Broad catch-all for any fixed positioned elements
+        * {
+          &[style*="position: fixed"] {
+            position: absolute !important;
+          }
+        }
         
         .preview-header {
           margin-bottom: 1rem;
