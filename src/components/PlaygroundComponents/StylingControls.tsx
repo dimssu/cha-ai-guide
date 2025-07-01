@@ -8,7 +8,7 @@ interface StylingControlsProps {
 const StylingControls = ({ config, updateConfig }: StylingControlsProps) => {
   return (
     <div className="control-group">
-      <h3>Styling</h3>
+      <h3>🎨 Basic Styling</h3>
       
       <div className="color-controls">
         <div className="control-item">
@@ -44,6 +44,25 @@ const StylingControls = ({ config, updateConfig }: StylingControlsProps) => {
               type="text"
               value={config.textColor}
               onChange={(e) => updateConfig('textColor', e.target.value)}
+              className="control-input color-text"
+            />
+          </div>
+        </div>
+
+        <div className="control-item">
+          <label htmlFor="chatBackground">Chat Background</label>
+          <div className="color-input-group">
+            <input
+              id="chatBackground"
+              type="color"
+              value={config.chatBackground}
+              onChange={(e) => updateConfig('chatBackground', e.target.value)}
+              className="control-color"
+            />
+            <input
+              type="text"
+              value={config.chatBackground}
+              onChange={(e) => updateConfig('chatBackground', e.target.value)}
               className="control-input color-text"
             />
           </div>
@@ -101,15 +120,32 @@ const StylingControls = ({ config, updateConfig }: StylingControlsProps) => {
       </div>
 
       <div className="control-item">
-        <label htmlFor="fontFamily">Font Family</label>
+        <label htmlFor="boxShadow">Box Shadow</label>
         <input
-          id="fontFamily"
+          id="boxShadow"
           type="text"
+          value={config.boxShadow}
+          onChange={(e) => updateConfig('boxShadow', e.target.value)}
+          className="control-input"
+          placeholder="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+        />
+      </div>
+
+      <div className="control-item">
+        <label htmlFor="fontFamily">Font Family</label>
+        <select 
+          id="fontFamily"
+          className="control-select"
           value={config.fontFamily}
           onChange={(e) => updateConfig('fontFamily', e.target.value)}
-          className="control-input"
-          placeholder="e.g., Inter, sans-serif"
-        />
+        >
+          <option value="Inter, sans-serif">Inter</option>
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="'Times New Roman', serif">Times New Roman</option>
+          <option value="'Courier New', monospace">Courier New</option>
+          <option value="'Roboto', sans-serif">Roboto</option>
+          <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+        </select>
       </div>
     </div>
   )

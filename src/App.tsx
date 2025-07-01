@@ -58,6 +58,7 @@ function App() {
             botMessageBackground: '#111827',
             borderRadius: '12px',
             fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+            sendButtonTextColor: '#111827',
             customChatButtonStyle: {
               backgroundColor: '#fff',
               padding: '10px',

@@ -16,8 +16,27 @@ const PlaygroundPreview = ({ config }: PlaygroundPreviewProps) => {
   const generateCode = () => {
     const props: string[] = []
     
-    props.push(`backendUrl="YOUR_BACKEND_URL"`)
-    props.push(`headerTitle="${config.headerTitle}"`)
+    // LLM Provider Configuration
+    if (config.llmProvider === 'backend') {
+      props.push(`backendUrl="${config.backendUrl || 'YOUR_BACKEND_URL'}"`)
+    } else {
+      props.push(`llmProvider="${config.llmProvider}"`)
+      if (config.apiKey) {
+        props.push(`apiKey="${config.apiKey}"`)
+      } else {
+        props.push(`apiKey="YOUR_API_KEY"`)
+      }
+    }
+    
+    // Context is critical
+    if (config.context !== 'You are a helpful AI assistant. Be friendly, professional, and provide accurate information.') {
+      props.push(`context="${config.context}"`)
+    }
+    
+    // Basic Configuration
+    if (config.headerTitle !== 'AI Assistant') {
+      props.push(`headerTitle="${config.headerTitle}"`)
+    }
     
     if (config.theme !== 'light') {
       props.push(`theme="${config.theme}"`)
@@ -27,6 +46,28 @@ const PlaygroundPreview = ({ config }: PlaygroundPreviewProps) => {
       props.push(`position="${config.position}"`)
     }
     
+    if (config.responseType !== 'casual') {
+      props.push(`responseType="${config.responseType}"`)
+    }
+    
+    // UI Customization
+    if (config.welcomeMessage) {
+      props.push(`welcomeMessage="${config.welcomeMessage}"`)
+    }
+    
+    if (config.placeholderText) {
+      props.push(`placeholderText="${config.placeholderText}"`)
+    }
+    
+    if (config.botAvatarUrl) {
+      props.push(`botAvatarUrl="${config.botAvatarUrl}"`)
+    }
+    
+    if (config.maxHeight !== '500px') {
+      props.push(`maxHeight="${config.maxHeight}"`)
+    }
+    
+    // Features
     if (config.showTimestamps) {
       props.push(`showTimestamps={true}`)
     }
@@ -39,37 +80,79 @@ const PlaygroundPreview = ({ config }: PlaygroundPreviewProps) => {
       props.push(`enableFeedback={true}`)
     }
     
-    if (config.persistChat) {
-      props.push(`persistChat={true}`)
+    if (config.persistChat !== true) {
+      props.push(`persistChat={${config.persistChat}}`)
     }
     
-    if (config.maxHeight !== '500px') {
-      props.push(`maxHeight="${config.maxHeight}"`)
+    // Advanced Configuration
+    if (config.chatId) {
+      props.push(`chatId="${config.chatId}"`)
+    }
+    
+    if (config.className) {
+      props.push(`className="${config.className}"`)
+    }
+    
+    if (config.chatButtonIcon) {
+      props.push(`chatButtonIcon="${config.chatButtonIcon}"`)
+    }
+    
+    if (config.customChatButton) {
+      props.push(`customChatButton="${config.customChatButton}"`)
+    }
+    
+    // File Upload Settings
+    if (config.enableFileUpload) {
+      if (config.allowedFileTypes.join(', ') !== 'image/*, .pdf, .doc, .docx') {
+        const fileTypesArray = config.allowedFileTypes.map(type => `"${type}"`).join(', ')
+        props.push(`allowedFileTypes={[${fileTypesArray}]}`)
+      }
+      
+      if (config.maxFileSizeMB !== 10) {
+        props.push(`maxFileSizeMB={${config.maxFileSizeMB}}`)
+      }
     }
 
+    // Suggested Questions
     if (config.suggestedQuestions.length > 0) {
       const questionsArray = config.suggestedQuestions.map(q => `"${q}"`).join(',\n          ')
       props.push(`suggestedQuestions={[\n          ${questionsArray}\n        ]}`)
     }
 
-    // Only include styling if it's different from defaults
-    const hasCustomStyling = 
-      config.widgetColor !== '#4f46e5' ||
-      config.textColor !== '#ffffff' ||
-      config.userMessageBackground !== '#4f46e5' ||
-      config.botMessageBackground !== '#f3f4f6' ||
-      config.borderRadius !== '12px' ||
-      config.fontFamily !== 'Inter, sans-serif'
+         // Styling
+     const stylingProps: string[] = []
+     
+     // Basic styling properties
+     if (config.widgetColor !== '#4f46e5') stylingProps.push(`widgetColor: '${config.widgetColor}'`)
+     if (config.textColor !== '#ffffff') stylingProps.push(`textColor: '${config.textColor}'`)
+     if (config.fontFamily !== 'Inter, sans-serif') stylingProps.push(`fontFamily: '${config.fontFamily}'`)
+     if (config.borderRadius !== '12px') stylingProps.push(`borderRadius: '${config.borderRadius}'`)
+     if (config.boxShadow !== '0 4px 6px -1px rgba(0, 0, 0, 0.1)') stylingProps.push(`boxShadow: '${config.boxShadow}'`)
+     if (config.chatBackground !== '#ffffff') stylingProps.push(`chatBackground: '${config.chatBackground}'`)
+     if (config.userMessageBackground !== '#4f46e5') stylingProps.push(`userMessageBackground: '${config.userMessageBackground}'`)
+     if (config.botMessageBackground !== '#f3f4f6') stylingProps.push(`botMessageBackground: '${config.botMessageBackground}'`)
+    
+    // Advanced CSS Styles (only if not empty)
+    const advancedStyles = [
+      'containerStyle', 'headerStyle', 'bodyStyle', 'windowStyle', 
+      'buttonStyle', 'chatButtonIconStyle', 'customChatButtonStyle'
+    ]
+    
+         advancedStyles.forEach(styleKey => {
+       const styleValue = config[styleKey as keyof PlaygroundConfig] as string
+       if (styleValue && styleValue !== '{}') {
+         try {
+           const parsed = JSON.parse(styleValue)
+           if (Object.keys(parsed).length > 0) {
+             stylingProps.push(`${styleKey}: ${JSON.stringify(parsed)}`)
+           }
+         } catch {
+           // Invalid JSON, skip
+         }
+       }
+     })
 
-    if (hasCustomStyling) {
-      const stylingProps: string[] = []
-      if (config.widgetColor !== '#4f46e5') stylingProps.push(`widgetColor: '${config.widgetColor}'`)
-      if (config.textColor !== '#ffffff') stylingProps.push(`textColor: '${config.textColor}'`)
-      if (config.userMessageBackground !== '#4f46e5') stylingProps.push(`userMessageBackground: '${config.userMessageBackground}'`)
-      if (config.botMessageBackground !== '#f3f4f6') stylingProps.push(`botMessageBackground: '${config.botMessageBackground}'`)
-      if (config.borderRadius !== '12px') stylingProps.push(`borderRadius: '${config.borderRadius}'`)
-      if (config.fontFamily !== 'Inter, sans-serif') stylingProps.push(`fontFamily: '${config.fontFamily}'`)
-      
+    if (stylingProps.length > 0) {
       props.push(`styling={{\n          ${stylingProps.join(',\n          ')}\n        }}`)
     }
 
@@ -102,36 +185,51 @@ function App() {
     <div className="playground-preview">
       <div className="preview-header">
         <h2>Live Preview</h2>
-        <p>Click the chat widget to test your configuration</p>
+        <p>The chatbot widget appears based on your position setting</p>
       </div>
 
-      <div className="preview-container">
-        <div className="preview-content">
-          <h3>Your Application</h3>
-          <p>This is where your application content would be. The chatbot widget appears based on your position setting.</p>
-          
-          <ChatBot
-            backendUrl="https://api.openai.com/v1/chat/completions"
-            headerTitle={config.headerTitle}
-            theme={config.theme}
-            position={config.position}
-            showTimestamps={config.showTimestamps}
-            enableFileUpload={config.enableFileUpload}
-            enableFeedback={config.enableFeedback}
-            persistChat={config.persistChat}
-            maxHeight={config.maxHeight}
-            suggestedQuestions={config.suggestedQuestions}
-            styling={{
-              widgetColor: config.widgetColor,
-              textColor: config.textColor,
-              userMessageBackground: config.userMessageBackground,
-              botMessageBackground: config.botMessageBackground,
-              borderRadius: config.borderRadius,
-              fontFamily: config.fontFamily
-            }}
-          />
-        </div>
-      </div>
+      <ChatBot
+        llmProvider={config.llmProvider === 'backend' ? undefined : config.llmProvider}
+        apiKey={config.llmProvider !== 'backend' ? (config.apiKey || 'demo-key') : undefined}
+        backendUrl={config.llmProvider === 'backend' ? (config.backendUrl || 'https://api.openai.com/v1/chat/completions') : undefined}
+        context={config.context}
+        headerTitle={config.headerTitle}
+        theme={config.theme}
+        position={config.position}
+        responseType={config.responseType}
+        welcomeMessage={config.welcomeMessage || undefined}
+        placeholderText={config.placeholderText || undefined}
+        botAvatarUrl={config.botAvatarUrl || undefined}
+        showTimestamps={config.showTimestamps}
+        enableFileUpload={config.enableFileUpload}
+        enableFeedback={config.enableFeedback}
+        persistChat={config.persistChat}
+        maxHeight={config.maxHeight}
+        chatId={config.chatId || undefined}
+        className={config.className || undefined}
+        chatButtonIcon={config.chatButtonIcon || undefined}
+        customChatButton={config.customChatButton || undefined}
+        allowedFileTypes={config.allowedFileTypes}
+        maxFileSizeMB={config.maxFileSizeMB}
+        suggestedQuestions={config.suggestedQuestions}
+        styling={{
+          widgetColor: config.widgetColor,
+          textColor: config.textColor,
+          fontFamily: config.fontFamily,
+          borderRadius: config.borderRadius,
+          boxShadow: config.boxShadow,
+          chatBackground: config.chatBackground,
+          userMessageBackground: config.userMessageBackground,
+          botMessageBackground: config.botMessageBackground,
+          ...(config.containerStyle !== '{}' ? { containerStyle: JSON.parse(config.containerStyle || '{}') } : {}),
+          ...(config.headerStyle !== '{}' ? { headerStyle: JSON.parse(config.headerStyle || '{}') } : {}),
+          ...(config.bodyStyle !== '{}' ? { bodyStyle: JSON.parse(config.bodyStyle || '{}') } : {}),
+          ...(config.windowStyle !== '{}' ? { windowStyle: JSON.parse(config.windowStyle || '{}') } : {}),
+          ...(config.buttonStyle !== '{}' ? { buttonStyle: JSON.parse(config.buttonStyle || '{}') } : {}),
+          ...(config.chatButtonIconStyle !== '{}' ? { chatButtonIconStyle: JSON.parse(config.chatButtonIconStyle || '{}') } : {}),
+          ...(config.customChatButtonStyle !== '{}' ? { customChatButtonStyle: JSON.parse(config.customChatButtonStyle || '{}') } : {})
+        }}
+      />
 
       <div className="code-section">
         <div className="code-header">

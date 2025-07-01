@@ -7,24 +7,66 @@ import './Playground.scss'
 
 const Playground = () => {
   const [config, setConfig] = useState<PlaygroundConfig>({
+    // Basic Configuration
     headerTitle: 'AI Assistant',
     theme: 'light',
     position: 'bottom-right',
-    showTimestamps: false,
+    
+    // LLM Provider Configuration
+    llmProvider: 'openai',
+    apiKey: '',
+    context: 'You are a helpful AI assistant. Be friendly, professional, and provide accurate information.',
+    responseType: 'casual',
+    backendUrl: '',
+    
+    // Core Features
     enableFileUpload: false,
     enableFeedback: false,
-    persistChat: false,
+    showTimestamps: false,
+    persistChat: true,
+    
+    // UI Customization
+    welcomeMessage: '',
+    placeholderText: '',
+    botAvatarUrl: '',
     maxHeight: '500px',
-    widgetColor: '#4f46e5',
-    textColor: '#ffffff',
-    userMessageBackground: '#4f46e5',
-    botMessageBackground: '#f3f4f6',
-    borderRadius: '12px',
-    fontFamily: 'Inter, sans-serif',
+    
+    // Suggested Questions
     suggestedQuestions: [
       'Hello! How can you help me?',
       'What can you do?'
-    ]
+    ],
+    
+    // Advanced Configuration
+    chatId: 'playground',
+    className: '',
+    
+    // File Upload Settings
+    allowedFileTypes: ['image/*', '.pdf', '.doc', '.docx'],
+    maxFileSizeMB: 10,
+    
+    // Custom Buttons & Icons
+    chatButtonIcon: '',
+    customChatButton: '',
+    
+    // Basic Styling
+    widgetColor: '#4f46e5',
+    textColor: '#ffffff',
+    fontFamily: 'Inter, sans-serif',
+    borderRadius: '12px',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+    chatBackground: '#ffffff',
+    userMessageBackground: '#4f46e5',
+    botMessageBackground: '#8c74e2',
+    
+    // Advanced CSS Styles
+    containerStyle: '{}',
+    headerStyle: '{}',
+    bodyStyle: '{}',
+    windowStyle: '{}',
+    buttonStyle: '{}',
+    chatButtonIconStyle: '{}',
+    customChatButtonStyle: '{}'
   })
 
   const updateConfig = (key: keyof PlaygroundConfig, value: any) => {
@@ -36,24 +78,66 @@ const Playground = () => {
 
   const resetToDefaults = () => {
     const defaultConfig: PlaygroundConfig = {
+      // Basic Configuration
       headerTitle: 'AI Assistant',
       theme: 'light',
       position: 'bottom-right',
-      showTimestamps: false,
+      
+      // LLM Provider Configuration
+      llmProvider: 'openai',
+      apiKey: '',
+      context: 'You are a helpful AI assistant. Be friendly, professional, and provide accurate information.',
+      responseType: 'casual',
+      backendUrl: '',
+      
+      // Core Features
       enableFileUpload: false,
       enableFeedback: false,
-      persistChat: false,
+      showTimestamps: false,
+      persistChat: true,
+      
+      // UI Customization
+      welcomeMessage: '',
+      placeholderText: '',
+      botAvatarUrl: '',
       maxHeight: '500px',
-      widgetColor: '#4f46e5',
-      textColor: '#ffffff',
-      userMessageBackground: '#4f46e5',
-      botMessageBackground: '#f3f4f6',
-      borderRadius: '12px',
-      fontFamily: 'Inter, sans-serif',
+      
+      // Suggested Questions
       suggestedQuestions: [
         'Hello! How can you help me?',
         'What can you do?'
-      ]
+      ],
+      
+      // Advanced Configuration
+      chatId: 'playground',
+      className: '',
+      
+      // File Upload Settings
+      allowedFileTypes: ['image/*', '.pdf', '.doc', '.docx'],
+      maxFileSizeMB: 10,
+      
+      // Custom Buttons & Icons
+      chatButtonIcon: '',
+      customChatButton: '',
+      
+      // Basic Styling
+      widgetColor: '#4f46e5',
+      textColor: '#ffffff',
+      fontFamily: 'Inter, sans-serif',
+      borderRadius: '12px',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+      chatBackground: '#ffffff',
+      userMessageBackground: '#4f46e5',
+      botMessageBackground: '#8c74e2',
+      
+      // Advanced CSS Styles
+      containerStyle: '{}',
+      headerStyle: '{}',
+      bodyStyle: '{}',
+      windowStyle: '{}',
+      buttonStyle: '{}',
+      chatButtonIconStyle: '{}',
+      customChatButtonStyle: '{}'
     }
     setConfig(defaultConfig)
   }
