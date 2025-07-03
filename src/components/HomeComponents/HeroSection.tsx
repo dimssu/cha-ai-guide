@@ -4,7 +4,7 @@ import { ArrowRight, MessageCircle } from 'lucide-react'
 const HeroSection = () => {
   const stats = [
     { label: 'Weekly Downloads', value: '50+' },
-    { label: 'Bundle Size', value: '<50KB' },
+    { label: 'Bundle Size', value: '<59KB' },
     { label: 'React Support', value: '16.8+' }
   ]
 

@@ -4,6 +4,7 @@ import './FeedbackDropdown.scss'
 
 interface FeedbackData {
   rating: number
+  email: string
   message: string
   category: 'positive' | 'negative' | 'bug' | 'suggestion' | 'feature_request'
 }
@@ -12,11 +13,13 @@ const FeedbackDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [feedback, setFeedback] = useState<FeedbackData>({
     rating: 0,
+    email: '',
     message: '',
     category: 'positive'
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [hoveredStar, setHoveredStar] = useState<number | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Close dropdown when clicking outside
@@ -43,9 +46,9 @@ const FeedbackDropdown = () => {
 
     // Reset form after 2 seconds
     setTimeout(() => {
-      setIsSubmitted(false)
       setIsOpen(false)
-      setFeedback({ rating: 0, message: '', category: 'positive' })
+      setIsSubmitted(false)
+      setFeedback({ rating: 0, email: '', message: '', category: 'positive' })
     }, 2000)
   }
 
@@ -86,6 +89,12 @@ const FeedbackDropdown = () => {
         Feedback
       </button>
 
+      {/* Backdrop */}
+      <div 
+        className={`feedback-backdrop ${isOpen ? 'open' : ''}`}
+        onClick={() => setIsOpen(false)}
+      />
+
       <div className={`feedback-panel ${isOpen ? 'open' : ''}`}>
         <div className="feedback-header">
           <h3>Share Your Feedback</h3>
@@ -114,8 +123,10 @@ const FeedbackDropdown = () => {
                   <button
                     key={star}
                     type="button"
-                    className={`star ${star <= feedback.rating ? 'filled' : ''}`}
+                    className={`star${star <= (hoveredStar ?? feedback.rating) ? ' hovered' : ''}${star <= feedback.rating ? ' filled' : ''}`}
                     onClick={() => handleStarClick(star)}
+                    onMouseEnter={() => setHoveredStar(star)}
+                    onMouseLeave={() => setHoveredStar(null)}
                     aria-label={`Rate ${star} stars`}
                   >
                     <Star size={20} />
@@ -143,6 +154,19 @@ const FeedbackDropdown = () => {
               </div>
             </div>
 
+            {/* Email */}
+            <div className="form-group">
+              <label htmlFor="feedback-email">Email (optional)</label>
+              <input
+                id="feedback-email"
+                type="email"
+                value={feedback.email}
+                onChange={(e) => setFeedback(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="your@email.com"
+                className="feedback-input"
+              />
+            </div>
+
             {/* Message */}
             <div className="form-group">
               <label htmlFor="feedback-message">Your message</label>
@@ -153,6 +177,7 @@ const FeedbackDropdown = () => {
                 placeholder="Tell us what you think..."
                 rows={3}
                 required
+                className="feedback-textarea"
               />
             </div>
 

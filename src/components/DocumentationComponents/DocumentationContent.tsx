@@ -343,8 +343,8 @@ COMMUNICATION STYLE:
   headerTitle="OpenAI Assistant"
   context="You are a helpful assistant."
   responseType="professional"
-/>
-
+          />
+          
 // Claude Configuration
 <ChatBot
   llmProvider="claude"
@@ -352,8 +352,8 @@ COMMUNICATION STYLE:
   headerTitle="Claude Assistant"
   context="You are a helpful assistant."
   responseType="casual"
-/>
-
+          />
+          
 // Gemini Configuration
 <ChatBot
   llmProvider="gemini"

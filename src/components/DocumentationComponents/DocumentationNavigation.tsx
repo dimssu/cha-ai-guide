@@ -39,7 +39,7 @@ const DocumentationNavigation = ({ sections, activeSection, onSectionClick, onCo
   return (
     <nav className="doc-nav">
       <div className="nav-header">
-        <h3>Table of Contents</h3>
+      <h3>Table of Contents</h3>
         <div className="nav-controls">
           <button 
             className="nav-control-btn"

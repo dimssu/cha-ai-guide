@@ -71,16 +71,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="header-actions">
               <FeedbackDropdown />
               
-              <a
-                href="https://github.com/your-username/cha-ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost"
-              >
-                <Github size={18} />
-                GitHub
-              </a>
-              
               <button
                 className="mobile-menu-btn"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
