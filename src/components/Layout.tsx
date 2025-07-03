@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, Github, BookOpen, Code, Home, Gamepad2 } from 'lucide-react'
 import ScrollToTop from './ScrollToTop'
+import FeedbackDropdown from './FeedbackDropdown'
 import './Layout.scss'
 
 interface LayoutProps {
@@ -68,6 +69,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </nav>
 
             <div className="header-actions">
+              <FeedbackDropdown />
+              
               <a
                 href="https://github.com/your-username/cha-ai"
                 target="_blank"
