@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, Github, BookOpen, Code, Home, Gamepad2 } from 'lucide-react'
 import ScrollToTop from './ScrollToTop'
 import FeedbackDropdown from './FeedbackDropdown'
+import type { FeedbackDropdownHandle } from './FeedbackDropdown'
 import './Layout.scss'
 
 interface LayoutProps {
@@ -12,6 +13,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const feedbackRef = useRef<FeedbackDropdownHandle>(null)
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
@@ -69,7 +71,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </nav>
 
             <div className="header-actions">
-              <FeedbackDropdown />
+              <FeedbackDropdown ref={feedbackRef} />
               
               <button
                 className="mobile-menu-btn"
@@ -118,17 +120,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="footer-section">
               <h4>Quick Links</h4>
               <ul>
+                <li><Link to="/">Home</Link></li>
                 <li><Link to="/docs">Documentation</Link></li>
                 <li><Link to="/examples">Examples</Link></li>
                 <li><Link to="/playground">Playground</Link></li>
-                <li><a href="https://github.com/your-username/cha-ai">GitHub</a></li>
               </ul>
             </div>
             <div className="footer-section">
               <h4>Support</h4>
               <ul>
-                <li><a href="#issues">Report Issues</a></li>
+                <li><a href="#issues" onClick={e => { e.preventDefault(); feedbackRef.current?.openWithCategory('bug'); }}>Report Issues</a></li>
                 <li><a href="#contributing">Contributing</a></li>
+                <li><a href="https://github.com/dimssu">GitHub</a></li>
+                <li><a href="https://www.npmjs.com/package/cha-ai">NPM</a></li>
               </ul>
             </div>
           </div>

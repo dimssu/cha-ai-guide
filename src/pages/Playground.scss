@@ -184,27 +184,9 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: sticky;
-    top: 5.5rem;
+    top: 8.5rem;
     height: fit-content;
     max-height: calc(100vh - 4rem);
-
-    .preview-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid #e2e8f0;
-      background: #f8fafc;
-
-      h2 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 0.5rem;
-      }
-
-      p {
-        color: #64748b;
-        margin: 0;
-      }
-    }
 
           .code-section {
         border-top: 1px solid #e2e8f0;

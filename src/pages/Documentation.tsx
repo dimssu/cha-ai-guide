@@ -5,7 +5,7 @@ import DocumentationContent from '../components/DocumentationComponents/Document
 import './Documentation.scss'
 
 const Documentation = () => {
-  const [openSections, setOpenSections] = useState<string[]>(['installation', 'context-guide'])
+  const [openSections, setOpenSections] = useState<string[]>(['installation'])
   const [activeSection, setActiveSection] = useState<string>('installation')
 
   const sections = [

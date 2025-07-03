@@ -3,7 +3,7 @@ import { ArrowRight, MessageCircle } from 'lucide-react'
 
 const HeroSection = () => {
   const stats = [
-    { label: 'Weekly Downloads', value: '50+' },
+    { label: 'Weekly Downloads', value: '350+' },
     { label: 'Bundle Size', value: '<59KB' },
     { label: 'React Support', value: '16.8+' }
   ]
@@ -14,7 +14,7 @@ const HeroSection = () => {
         <div className="hero-content fade-in">
           <div className="hero-badge">
             <MessageCircle size={16} />
-            <span>v1.0.5 • Now Available</span>
+            <span>v1.0.11 • Now Available</span>
           </div>
           
           <h1 className="hero-title">
@@ -61,7 +61,7 @@ const HeroSection = () => {
             <div className="chat-body">
               <div className="message bot-message">
                 <div className="message-content">
-                  Hello! I'm powered by **Cha-ai**. How can I help you today?
+                  Hello! I’m powered by Cha-ai — the chatbot that’s npm-ressively easy to install!
                 </div>
                 <div className="message-time">{new Date(Date.now() - 60000).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})}</div>
               </div>
@@ -73,7 +73,7 @@ const HeroSection = () => {
               </div>
               <div className="message bot-message">
                 <div className="message-content">
-                  I support **markdown**, file uploads, and maintain conversation context!
+                  Want to see more? Just npm install cha-ai and start chatting smarter!
                 </div>
                 <div className="message-time">{new Date().toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})}</div>
               </div>

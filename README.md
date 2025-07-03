@@ -186,10 +186,6 @@ The entire site is fully responsive with breakpoints for:
 - **Prettier** formatting (recommended)
 - **SCSS** with organized structure
 
-## 📄 License
-
-MIT License - feel free to use this as a template for your own documentation sites.
-
 ## 🤝 Contributing
 
 1. Fork the repository

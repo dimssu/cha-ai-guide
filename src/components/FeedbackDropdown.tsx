@@ -1,6 +1,10 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { MessageSquare, X, Star, Send } from 'lucide-react'
 import './FeedbackDropdown.scss'
+
+export interface FeedbackDropdownHandle {
+  openWithCategory: (category: FeedbackData['category']) => void
+}
 
 interface FeedbackData {
   rating: number
@@ -9,7 +13,7 @@ interface FeedbackData {
   category: 'positive' | 'negative' | 'bug' | 'suggestion' | 'feature_request'
 }
 
-const FeedbackDropdown = () => {
+const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
   const [isOpen, setIsOpen] = useState(false)
   const [feedback, setFeedback] = useState<FeedbackData>({
     rating: 0,
@@ -21,6 +25,13 @@ const FeedbackDropdown = () => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [hoveredStar, setHoveredStar] = useState<number | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useImperativeHandle(ref, () => ({
+    openWithCategory: (category) => {
+      setIsOpen(true)
+      setFeedback(prev => ({ ...prev, category }))
+    }
+  }))
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -204,6 +215,6 @@ const FeedbackDropdown = () => {
       </div>
     </div>
   )
-}
+})
 
 export default FeedbackDropdown 

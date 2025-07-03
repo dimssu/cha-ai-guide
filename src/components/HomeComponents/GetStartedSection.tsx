@@ -105,7 +105,7 @@ function App() {
         <div className="container">
           <div className="cta-content">
             <h2>Ready to Get Started?</h2>
-            <p>Join thousands of developers building amazing chat experiences with Cha-ai.</p>
+            <p>Discover new possibilities in chat development with Cha-ai — a thoughtful approach to building smarter, more intuitive conversations.</p>
             <div className="cta-actions">
               <Link to="/docs" className="btn btn-primary">
                 Read Documentation

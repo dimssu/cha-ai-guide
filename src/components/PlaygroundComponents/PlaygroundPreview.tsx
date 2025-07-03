@@ -183,10 +183,6 @@ function App() {
 
   return (
     <div className="playground-preview">
-      <div className="preview-header">
-        <h2>Live Preview</h2>
-        <p>The chatbot widget appears based on your position setting</p>
-      </div>
 
       <ChatBot
         llmProvider={config.llmProvider === 'backend' ? undefined : config.llmProvider}
