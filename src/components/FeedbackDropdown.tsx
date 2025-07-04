@@ -15,7 +15,7 @@ interface FeedbackData {
   category: 'positive' | 'negative' | 'bug' | 'suggestion' | 'feature_request'
 }
 
-const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
+const FeedbackDropdown = forwardRef<FeedbackDropdownHandle, {}>((props, ref) => {
   const [isOpen, setIsOpen] = useState(false)
   const [feedback, setFeedback] = useState<FeedbackData>({
     rating: 0,
@@ -47,7 +47,7 @@ const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  }, [props])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

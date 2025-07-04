@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Github, BookOpen, Code, Home, Gamepad2 } from 'lucide-react'
+import { Menu, X, BookOpen, Code, Home, Gamepad2 } from 'lucide-react'
 import ScrollToTop from './ScrollToTop'
 import FeedbackDropdown from './FeedbackDropdown'
 import type { FeedbackDropdownHandle } from './FeedbackDropdown'

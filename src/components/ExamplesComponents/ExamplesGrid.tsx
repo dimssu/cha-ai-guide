@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Play, Code, Eye, Copy, Check } from 'lucide-react'
+import { Copy, Check } from 'lucide-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import toast from 'react-hot-toast'
 import ChatBot from 'cha-ai'
 
 const ExamplesGrid = () => {
-  const [activeExample, setActiveExample] = useState<string | null>(null)
+  const [activeExample] = useState<string | null>(null)
   const [copiedCode, setCopiedCode] = useState<string | null>(null)
 
   // Fix ChatBot positioning within preview containers

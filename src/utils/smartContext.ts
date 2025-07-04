@@ -1,4 +1,4 @@
-import { generateChaAiContext, generateDynamicContext, searchDocumentation } from '../data/chaAiDocumentation'
+import { generateChaAiContext, generateDynamicContext } from '../data/chaAiDocumentation'
 
 // Keywords that indicate specific topics
 const TOPIC_KEYWORDS = {
