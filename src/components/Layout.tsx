@@ -130,9 +130,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <h4>Support</h4>
               <ul>
                 <li><a href="#issues" onClick={e => { e.preventDefault(); feedbackRef.current?.openWithCategory('bug'); }}>Report Issues</a></li>
-                <li><a href="#contributing">Contributing</a></li>
-                <li><a href="https://github.com/dimssu">GitHub</a></li>
-                <li><a href="https://www.npmjs.com/package/cha-ai">NPM</a></li>
+                <li><a href="https://github.com/dimssu/Talkr" target="_blank">Contribute</a></li>
+                <li><a href="https://github.com/dimssu" target="_blank">GitHub</a></li>
+                <li><a href="https://www.npmjs.com/package/cha-ai" target="_blank">NPM</a></li>
+                <li><a href="https://www.dimssu.com/questions" target="_blank">About Me</a></li>
               </ul>
             </div>
           </div>

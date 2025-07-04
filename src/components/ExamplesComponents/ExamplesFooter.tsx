@@ -20,7 +20,7 @@ const ExamplesFooter = () => {
             <span>Read Documentation</span>
           </a>
           <a 
-            href="https://github.com/your-username/cha-ai" 
+            href="https://github.com/dimssu/Talkr" 
             target="_blank" 
             rel="noopener noreferrer"
             className="btn btn-secondary"

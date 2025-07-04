@@ -115,7 +115,7 @@ function App() {
                 Try Playground
               </Link>
               <a 
-                href="https://github.com/your-username/cha-ai" 
+                href="https://github.com/dimssu/Talkr" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="btn btn-secondary"

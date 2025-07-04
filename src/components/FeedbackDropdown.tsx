@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { MessageSquare, X, Star, Send } from 'lucide-react'
 import './FeedbackDropdown.scss'
+import toast from 'react-hot-toast'
 
 export interface FeedbackDropdownHandle {
   openWithCategory: (category: FeedbackData['category']) => void
@@ -8,6 +9,7 @@ export interface FeedbackDropdownHandle {
 
 interface FeedbackData {
   rating: number
+  name: string
   email: string
   message: string
   category: 'positive' | 'negative' | 'bug' | 'suggestion' | 'feature_request'
@@ -17,6 +19,7 @@ const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
   const [isOpen, setIsOpen] = useState(false)
   const [feedback, setFeedback] = useState<FeedbackData>({
     rating: 0,
+    name: '',
     email: '',
     message: '',
     category: 'positive'
@@ -25,6 +28,7 @@ const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [hoveredStar, setHoveredStar] = useState<number | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const isDisabled = isSubmitting || !feedback.message.trim() || !feedback.email.trim() || feedback.rating === 0
 
   useImperativeHandle(ref, () => ({
     openWithCategory: (category) => {
@@ -49,17 +53,73 @@ const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    // Build payload
+    const payload = {
+      submitter: {
+        name: feedback.name || '',
+        email: feedback.email || '',
+        role: '',
+        userId: ''
+      },
+      recipient: {
+        name: 'Cha-ai Product Team',
+        email: 'feedbacksdimsuu@gmail.com',
+        role: 'Admin',
+        team: 'Admin'
+      },
+      feedback: {
+        content: feedback.message,
+        rating: feedback.rating,
+        type: feedback.category,
+        category: feedback.category
+      },
+      context: {
+        applicationName: 'Cha-ai Guide',
+        featureName: 'Feedback',
+        version: '1.0.11',
+        environment: import.meta.env.VITE_NODE_ENV || 'development',
+        userAgent: navigator.userAgent,
+        url: window.location.href
+      },
+      metadata: {
+        attachments: [],
+        tags: [],
+        customFields: {},
+        sessionId: '',
+        timestamp: new Date().toISOString()
+      }
+    }
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_NARADH_API_URL}/feedback/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      console.log(response)
+      if (response.ok) {
+        setIsSubmitted(true)
+        setIsSubmitting(false)
+        toast.success('Feedback submitted successfully')
+      } else {
+        toast.error('Failed to submit feedback')
+      }
+    } catch (err) {
+      console.error(err)
+      toast.error('Something went wrong')
+    }
 
     setIsSubmitted(true)
     setIsSubmitting(false)
 
+    setTimeout(() => {
+        setIsOpen(false)
+    },1500) 
+
     // Reset form after 2 seconds
     setTimeout(() => {
-      setIsOpen(false)
       setIsSubmitted(false)
-      setFeedback({ rating: 0, email: '', message: '', category: 'positive' })
+      setFeedback({ rating: 0, name: '', email: '', message: '', category: 'positive' })
     }, 2000)
   }
 
@@ -167,13 +227,26 @@ const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
 
             {/* Email */}
             <div className="form-group">
-              <label htmlFor="feedback-email">Email (optional)</label>
+              <label htmlFor="feedback-email">Email</label>
               <input
                 id="feedback-email"
                 type="email"
                 value={feedback.email}
                 onChange={(e) => setFeedback(prev => ({ ...prev, email: e.target.value }))}
                 placeholder="your@email.com"
+                className="feedback-input"
+              />
+            </div>
+
+            {/* Name */}
+            <div className="form-group">
+              <label htmlFor="feedback-name">Name</label>
+              <input
+                id="feedback-name"
+                type="text"
+                value={feedback.name}
+                onChange={(e) => setFeedback(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Your name"
                 className="feedback-input"
               />
             </div>
@@ -196,7 +269,7 @@ const FeedbackDropdown = forwardRef<FeedbackDropdownHandle>((props, ref) => {
             <button
               type="submit"
               className="submit-btn"
-              disabled={isSubmitting || !feedback.message.trim()}
+              disabled={isDisabled}
             >
               {isSubmitting ? (
                 <>
