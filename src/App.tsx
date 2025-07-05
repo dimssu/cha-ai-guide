@@ -46,8 +46,6 @@ function App() {
           suggestedQuestions={[
             "How do I install cha-ai?",
             "What props are available?",
-            "How do I customize the styling?",
-            "Can you show me an example?",
             "What features does cha-ai have?",
             "How do I use direct LLM integration?"
           ]}
