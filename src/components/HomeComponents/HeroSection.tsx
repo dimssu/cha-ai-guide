@@ -14,7 +14,7 @@ const HeroSection = () => {
         <div className="hero-content fade-in">
           <div className="hero-badge">
             <MessageCircle size={16} />
-            <span>v1.0.17 • Now Available</span>
+            <span>v1.1.2 • Now Available</span>
           </div>
           
           <h1 className="hero-title">

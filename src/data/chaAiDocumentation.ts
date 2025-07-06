@@ -194,13 +194,21 @@ export const chaAiDocumentation: DocSection[] = [
   }
 ]
 
+// Utility: Common English stopwords to ignore in tag search
+const STOPWORDS = new Set([
+  'the', 'is', 'at', 'which', 'on', 'a', 'an', 'and', 'or', 'for', 'to', 'of', 'in', 'by', 'with', 'as', 'from', 'that', 'this', 'it', 'be', 'are', 'was', 'were', 'has', 'have', 'had', 'but', 'not', 'do', 'does', 'did', 'so', 'can', 'will', 'just', 'if', 'then', 'than', 'how', 'i', 'you', 'he', 'she', 'we', 'they', 'my', 'your', 'our', 'their', 'me', 'him', 'her', 'us', 'them', 'what', 'when', 'where', 'who', 'whom', 'why', 'about', 'into', 'over', 'after', 'before', 'up', 'down', 'out', 'off', 'again', 'further', 'once', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'only', 'own', 'same', 'too', 'very', 's', 't', 'can', 'will', 'don', 'should', 'now'
+])
+
 export const getDocumentationByTags = (tags: string[]): DocSection[] => {
-  return chaAiDocumentation.filter(doc => 
-    tags.some(tag => 
-      doc.tags.some(docTag => 
-        docTag.toLowerCase().includes(tag.toLowerCase())
-      )
-    )
+  // Remove stopwords and empty strings, use lowercase for comparison
+  const filteredTags = tags
+    .map(tag => tag.toLowerCase())
+    .filter(tag => tag && !STOPWORDS.has(tag))
+
+  if (filteredTags.length === 0) return []
+
+  return chaAiDocumentation.filter(doc =>
+    doc.tags.some(docTag => filteredTags.includes(docTag.toLowerCase()))
   )
 }
 
@@ -331,9 +339,24 @@ When answering questions:
 
 // Generate dynamic context based on user query
 export const generateDynamicContext = (userQuery: string): string => {
-  const relevantDocs = searchDocumentation(userQuery)
+  debugger;
+  // Try to extract tags from the user query (split by space, remove punctuation)
+  const queryLower = userQuery.toLowerCase()
+  const tagCandidates = queryLower
+    .replace(/[^a-z0-9\s]/gi, '')
+    .split(' ')
+    .filter(Boolean)
+
+  // 1. Try tag-based search first
+  let relevantDocs = getDocumentationByTags(tagCandidates)
+
+  // 2. If no tag-based match, use full-text search
+  if (relevantDocs.length === 0) {
+    relevantDocs = searchDocumentation(userQuery)
+  }
+
   const baseContext = `You are an expert assistant for the cha-ai React chatbot component.`
-  
+
   if (relevantDocs.length === 0) {
     return generateChaAiContext() // Fallback to full context
   }
@@ -343,23 +366,27 @@ export const generateDynamicContext = (userQuery: string): string => {
   ).join('\n\n')
 
   // Get relevant props based on query keywords
-  const queryLower = userQuery.toLowerCase()
-  const relevantProps = chaAiProps.filter(prop => 
-    queryLower.includes(prop.name.toLowerCase()) ||
-    prop.description.toLowerCase().includes(queryLower)
-  )
+  let relevantProps: PropInfo[] = []
+  if (queryLower.includes('props')) {
+    relevantProps = chaAiProps.filter(prop => 
+        queryLower.includes(prop.name.toLowerCase()) ||
+        prop.description.toLowerCase().includes(queryLower)
+    )
+  }
 
-  const propsSection = relevantProps.length > 0 
-    ? `\n\n## Relevant Props:\n${relevantProps.map(prop => 
-        `${prop.name}: ${prop.type} (${prop.required ? 'required' : 'optional'}, default: ${prop.default}) - ${prop.description}`
-      ).join('\n')}`
-    : ''
-
+  let propsSection = ''
+  if(relevantProps && relevantProps.length > 0) {
+    propsSection = relevantProps.length > 0 
+      ? `\n\n## Relevant Props:\n${relevantProps.map(prop => 
+          `${prop.name}: ${prop.type} (${prop.required ? 'required' : 'optional'}, default: ${prop.default}) - ${prop.description}`
+        ).join('\n')}`
+      : ''
+  }
   return `${baseContext}
 
 # Relevant Cha-ai Documentation for: "${userQuery}"
 
-${relevantContent}${propsSection}
+${relevantContent}${propsSection || ''}
 
 Provide specific, actionable answers with code examples when appropriate.`
 } 

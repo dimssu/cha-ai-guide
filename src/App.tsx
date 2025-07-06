@@ -6,14 +6,13 @@ import Documentation from './pages/Documentation'
 import Examples from './pages/Examples'
 import Playground from './pages/Playground'
 import './App.scss'
-import { generateChaAiContext, generateDynamicContext } from './data/chaAiDocumentation'
+import { generateDynamicContext } from './data/chaAiDocumentation'
 import { useEffect, useState } from 'react'
 
 function App() {
 
   const location = useLocation()
   const [showGlobalChat, setShowGlobalChat] = useState(true)
-  const [dynamicContext, setDynamicContext] = useState(generateChaAiContext())
 
   useEffect(() => {
     if (location.pathname === '/playground') {
@@ -23,9 +22,9 @@ function App() {
     }
   }, [location.pathname])
 
-  const handleBeforeSend = (message) => {
-    setDynamicContext(generateDynamicContext(message))
-    return message
+  // Use onBeforeLlmCall for dynamic context
+  const handleBeforeLlmCall = (message) => {
+    return generateDynamicContext(message)
   }
 
   return (
@@ -70,8 +69,7 @@ function App() {
           }}
           maxHeight="600px"
           persistChat={true}
-          context={dynamicContext}
-          onBeforeSend={handleBeforeSend}
+          getDynamicContext={handleBeforeLlmCall}
           customChatButton='https://lottie.host/embed/0df71204-aba8-4fa3-874a-0781f79fe41d/nARRb2P4KE.lottie'
         />
       }
