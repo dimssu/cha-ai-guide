@@ -55,15 +55,15 @@ function App() {
             "How do I use direct LLM integration?"
           ]}
           styling={{
-            widgetColor: '#fff',
-            textColor: '#fff',
-            userMessageBackground: '#4f46e5',
-            botMessageBackground: '#111827',
-            borderRadius: '12px',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-            sendButtonTextColor: '#111827',
+            widgetColor: '#0d0d0f',
+            textColor: '#f2f1ea',
+            userMessageBackground: '#0d0d0f',
+            botMessageBackground: '#1f1f24',
+            borderRadius: '16px',
+            fontFamily: "'General Sans', -apple-system, BlinkMacSystemFont, sans-serif",
+            sendButtonTextColor: '#0d0d0f',
             customChatButtonStyle: {
-              backgroundColor: '#fff',
+              backgroundColor: '#c6f24e',
               padding: '10px',
             }
           }}

@@ -8,7 +8,7 @@ interface UICustomizationControlsProps {
 const UICustomizationControls = ({ config, updateConfig }: UICustomizationControlsProps) => {
   return (
     <div className="control-group">
-      <h3>🎨 UI Customization</h3>
+      <h3>UI Customization</h3>
       
       <div className="control-item">
         <label>Welcome Message</label>

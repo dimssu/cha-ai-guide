@@ -8,7 +8,7 @@ interface LLMProviderControlsProps {
 const LLMProviderControls = ({ config, updateConfig }: LLMProviderControlsProps) => {
   return (
     <div className="control-group">
-      <h3>🤖 LLM Provider Configuration</h3>
+      <h3>LLM Provider Configuration</h3>
       
       <div className="control-item">
         <label>Provider</label>

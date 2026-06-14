@@ -13,7 +13,7 @@ const AdvancedControls = ({ config, updateConfig }: AdvancedControlsProps) => {
 
   return (
     <div className="control-group">
-      <h3>⚙️ Advanced Configuration</h3>
+      <h3>Advanced Configuration</h3>
       
       <div className="control-item">
         <label>Chat ID</label>

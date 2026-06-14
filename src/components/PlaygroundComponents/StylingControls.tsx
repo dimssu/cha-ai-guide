@@ -8,7 +8,7 @@ interface StylingControlsProps {
 const StylingControls = ({ config, updateConfig }: StylingControlsProps) => {
   return (
     <div className="control-group">
-      <h3>🎨 Basic Styling</h3>
+      <h3>Basic Styling</h3>
       
       <div className="color-controls">
         <div className="control-item">
@@ -139,7 +139,7 @@ const StylingControls = ({ config, updateConfig }: StylingControlsProps) => {
           value={config.fontFamily}
           onChange={(e) => updateConfig('fontFamily', e.target.value)}
         >
-          <option value="Inter, sans-serif">Inter</option>
+          <option value="'General Sans', sans-serif">General Sans</option>
           <option value="Arial, sans-serif">Arial</option>
           <option value="'Times New Roman', serif">Times New Roman</option>
           <option value="'Courier New', monospace">Courier New</option>

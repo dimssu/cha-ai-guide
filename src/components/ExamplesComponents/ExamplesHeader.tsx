@@ -1,10 +1,13 @@
+import { Reveal } from '../../motion'
+
 const ExamplesHeader = () => {
   return (
-    <div className="examples-header">
-      <h1>Live Examples</h1>
+    <Reveal className="examples-header" direction="up" distance={26}>
+      <span className="eyebrow">Live examples</span>
+      <h1>See Cha-ai in action</h1>
       <p>These examples are just a few of the possibilities with Cha-ai. Check out the full documentation to learn more about all available features and customization options.</p>
-    </div>
+    </Reveal>
   )
 }
 
-export default ExamplesHeader 
+export default ExamplesHeader

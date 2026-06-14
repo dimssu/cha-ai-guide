@@ -3,6 +3,7 @@ import { ChevronDown, ChevronRight, Copy, Check } from 'lucide-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import toast from 'react-hot-toast'
+import { Reveal } from '../../motion'
 
 interface DocumentationContentProps {
   openSections: string[]
@@ -61,11 +62,14 @@ const DocumentationContent = ({ openSections, onToggleSection, onSetOpenSections
         style={vscDarkPlus}
         customStyle={{
           margin: 0,
-          borderRadius: '0 0 0.5rem 0.5rem',
-          fontSize: '0.875rem',
-          lineHeight: '1.6',
-          padding: '1.5rem',
-          background: '#1e1e1e !important'
+          borderRadius: 0,
+          fontSize: '0.84rem',
+          lineHeight: '1.7',
+          padding: '1.4rem 1.5rem',
+          background: '#131316'
+        }}
+        codeTagProps={{
+          style: { fontFamily: "'JetBrains Mono', monospace", background: 'transparent' }
         }}
         showLineNumbers={false}
         wrapLines={true}
@@ -123,7 +127,7 @@ function App() {
           />
           
           <div className="important-note">
-            <h4>💡 Context is Critical!</h4>
+            <h4>Context is Critical!</h4>
             <p>The <code>context</code> prop is the most important feature for creating effective AI responses. It tells the AI who it is, what it should do, and how it should behave. <strong>Never skip the context prop!</strong></p>
             <p>👉 <a href="#context-guide">Learn how to write effective context →</a></p>
           </div>
@@ -163,7 +167,7 @@ function App() {
         <div className="section-content">
           <p><strong>Context is the most important prop for creating effective AI chatbots.</strong> It provides the AI with background information about its role, your business, and how it should behave.</p>
           
-          <h4>🎯 Why Context Matters</h4>
+          <h4>Why Context Matters</h4>
           <p>Without proper context, AI responses can be:</p>
           <ul>
             <li>Generic and unhelpful</li>
@@ -174,7 +178,7 @@ function App() {
           
           <p>With good context, your AI becomes a knowledgeable assistant that understands your business and provides relevant, helpful responses.</p>
           
-          <h4>✍️ Writing Effective Context</h4>
+          <h4>Writing Effective Context</h4>
           <p>A good context should include:</p>
           <ul>
             <li><strong>Role Definition:</strong> What is the AI's job?</li>
@@ -184,7 +188,7 @@ function App() {
             <li><strong>Behavioral Rules:</strong> Do's and don'ts</li>
           </ul>
           
-          <h4>🛍️ E-commerce Context Example</h4>
+          <h4>E-commerce Context Example</h4>
           <CodeBlock 
             code={`<ChatBot
   context="You are a helpful customer service agent for TechStore, an online electronics retailer.
@@ -219,7 +223,7 @@ TONE:
             id="ecommerce-context"
           />
           
-          <h4>🏥 Healthcare Context Example</h4>
+          <h4>Healthcare Context Example</h4>
           <CodeBlock 
             code={`<ChatBot
   context="You are a virtual assistant for Wellness Clinic, a family healthcare practice.
@@ -259,7 +263,7 @@ ALWAYS REMEMBER:
             id="healthcare-context"
           />
           
-          <h4>💻 SaaS Context Example</h4>
+          <h4>SaaS Context Example</h4>
           <CodeBlock 
             code={`<ChatBot
   context="You are a technical support assistant for CloudFlow, a project management SaaS platform.
@@ -304,7 +308,7 @@ COMMUNICATION STYLE:
             id="saas-context"
           />
           
-          <h4>📚 Best Practices for Context</h4>
+          <h4>Best Practices for Context</h4>
           <ul>
             <li><strong>Be Specific:</strong> Include exact policies, hours, and procedures</li>
             <li><strong>Set Boundaries:</strong> Clearly state what the AI can and cannot do</li>
@@ -314,7 +318,7 @@ COMMUNICATION STYLE:
             <li><strong>Use Formatting:</strong> Structure context with headers and bullet points</li>
           </ul>
           
-          <h4>⚠️ Context Length Considerations</h4>
+          <h4>Context Length Considerations</h4>
           <p>While detailed context is important, be mindful of length:</p>
           <ul>
             <li><strong>Optimal:</strong> 500-1500 characters for most use cases</li>
@@ -1210,26 +1214,35 @@ function App() {
 
   return (
     <div className="doc-main">
-      {sections.map(section => (
-        <section key={section.id} id={section.id} className="doc-section">
-          <button
-            className="section-toggle"
-            onClick={() => onToggleSection(section.id)}
-          >
-            <h2>{section.title}</h2>
-            {openSections.includes(section.id) ? (
-              <ChevronDown size={20} />
-            ) : (
-              <ChevronRight size={20} />
+      {sections.map((section, index) => (
+        <Reveal
+          key={section.id}
+          as="section"
+          direction="up"
+          amount="some"
+          delay={Math.min(index, 3) * 0.04}
+          className="doc-section"
+        >
+          <div id={section.id}>
+            <button
+              className="section-toggle"
+              onClick={() => onToggleSection(section.id)}
+            >
+              <h2>{section.title}</h2>
+              {openSections.includes(section.id) ? (
+                <ChevronDown size={20} />
+              ) : (
+                <ChevronRight size={20} />
+              )}
+            </button>
+
+            {openSections.includes(section.id) && (
+              <div className="section-body">
+                {section.content}
+              </div>
             )}
-          </button>
-          
-          {openSections.includes(section.id) && (
-            <div className="section-body">
-              {section.content}
-            </div>
-          )}
-        </section>
+          </div>
+        </Reveal>
       ))}
     </div>
   )

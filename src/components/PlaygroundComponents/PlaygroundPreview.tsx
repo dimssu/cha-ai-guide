@@ -4,6 +4,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import toast from 'react-hot-toast'
 import ChatBot from 'cha-ai'
+import { Reveal } from '../../motion'
 import type { PlaygroundConfig } from './types'
 
 interface PlaygroundPreviewProps {
@@ -182,7 +183,20 @@ function App() {
   }
 
   return (
-    <div className="playground-preview">
+    <Reveal direction="up" className="playground-preview">
+
+      <div className="preview-frame">
+        <div className="preview-bar">
+          <span className="preview-dots" aria-hidden>
+            <i /><i /><i />
+          </span>
+          <span className="preview-label">Live preview</span>
+          <span className="preview-hint">{config.position}</span>
+        </div>
+        <div className="preview-stage">
+          <span className="preview-stage-note">The widget docks to the {config.position.replace('-', ' ')} corner.</span>
+        </div>
+      </div>
 
       <ChatBot
         llmProvider={config.llmProvider === 'backend' ? undefined : config.llmProvider}
@@ -261,7 +275,7 @@ function App() {
           </SyntaxHighlighter>
         </div>
       </div>
-    </div>
+    </Reveal>
   )
 }
 

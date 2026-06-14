@@ -50,15 +50,15 @@ const Playground = () => {
     customChatButton: '',
     
     // Basic Styling
-    widgetColor: '#4f46e5',
+    widgetColor: '#0d0d0f',
     textColor: '#ffffff',
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: "'General Sans', sans-serif",
     borderRadius: '12px',
     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
     chatBackground: '#ffffff',
-    userMessageBackground: '#4f46e5',
-    botMessageBackground: '#8c74e2',
-    
+    userMessageBackground: '#0d0d0f',
+    botMessageBackground: '#1f1f24',
+
     // Advanced CSS Styles
     containerStyle: '{}',
     headerStyle: '{}',
@@ -121,14 +121,14 @@ const Playground = () => {
       customChatButton: '',
       
       // Basic Styling
-      widgetColor: '#4f46e5',
+      widgetColor: '#0d0d0f',
       textColor: '#ffffff',
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: "'General Sans', sans-serif",
       borderRadius: '12px',
       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
       chatBackground: '#ffffff',
-      userMessageBackground: '#4f46e5',
-      botMessageBackground: '#8c74e2',
+      userMessageBackground: '#0d0d0f',
+      botMessageBackground: '#1f1f24',
       
       // Advanced CSS Styles
       containerStyle: '{}',

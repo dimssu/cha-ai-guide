@@ -1,4 +1,5 @@
 import { RefreshCw, Settings } from 'lucide-react'
+import { Reveal } from '../../motion'
 import BasicControls from './BasicControls'
 import LLMProviderControls from './LLMProviderControls'
 import FeatureControls from './FeatureControls'
@@ -17,14 +18,14 @@ interface PlaygroundControlsProps {
 
 const PlaygroundControls = ({ config, updateConfig, resetToDefaults }: PlaygroundControlsProps) => {
   return (
-    <div className="playground-controls">
+    <Reveal direction="up" className="playground-controls">
       <div className="controls-header">
         <h2>
           <Settings size={20} />
           Configuration
         </h2>
-        <button 
-          className="btn btn-ghost btn-sm"
+        <button
+          className="btn btn-secondary btn-sm"
           onClick={resetToDefaults}
         >
           <RefreshCw size={16} />
@@ -55,7 +56,7 @@ const PlaygroundControls = ({ config, updateConfig, resetToDefaults }: Playgroun
       
       {/* Least Used - Advanced CSS Styling */}
       <AdvancedStylingControls config={config} updateConfig={updateConfig} />
-    </div>
+    </Reveal>
   )
 }
 

@@ -45,14 +45,14 @@ const AdvancedStylingControls = ({ config, updateConfig }: AdvancedStylingContro
       >
         <h3>
           {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-          🎨 Advanced CSS Styling
+          Advanced CSS Styling
         </h3>
       </button>
       
       {isExpanded && (
         <div className="advanced-styling-content">
           <p className="styling-warning">
-            ⚠️ Advanced feature: Enter CSS properties as JSON objects. Invalid JSON will be ignored.
+            Advanced feature: Enter CSS properties as JSON objects. Invalid JSON will be ignored.
           </p>
           
           <div className="styling-example">
@@ -80,7 +80,7 @@ const AdvancedStylingControls = ({ config, updateConfig }: AdvancedStylingContro
           ))}
 
           <div className="styling-note">
-            <strong>💡 Tip:</strong> These styles override the basic styling options above. 
+            <strong>Tip:</strong> These styles override the basic styling options above.
             Use camelCase for CSS properties (e.g., "backgroundColor" not "background-color").
           </div>
         </div>

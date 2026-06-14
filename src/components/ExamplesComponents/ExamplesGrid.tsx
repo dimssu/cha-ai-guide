@@ -4,6 +4,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import toast from 'react-hot-toast'
 import ChatBot from 'cha-ai'
+import { Reveal } from '../../motion'
 
 const ExamplesGrid = () => {
   const [activeExample] = useState<string | null>(null)
@@ -296,8 +297,14 @@ function App() {
 
   return (
     <div className="examples-grid">
-      {examples.map((example) => (
-        <div key={example.id} className="example-card card">
+      {examples.map((example, i) => (
+        <Reveal
+          key={example.id}
+          className="example-card card"
+          delay={i * 0.08}
+          direction="up"
+          distance={26}
+        >
           <div className="example-header">
             <h3>{example.title}</h3>
             <p>{example.description}</p>
@@ -334,7 +341,7 @@ function App() {
           <div id={`code-${example.id}`} className="example-code">
             <CodeBlock code={example.code} id={example.id} />
           </div>
-        </div>
+        </Reveal>
       ))}
     </div>
   )
